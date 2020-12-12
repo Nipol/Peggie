@@ -2,7 +2,7 @@
 pragma solidity ^0.6.0;
 
 /* is ERC165 */
-interface ERC721 {
+interface IERC721 {
     /// @dev This emits when ownership of any NFT changes by any mechanism.
     ///  This event emits when NFTs are created (`from` == 0) and destroyed
     ///  (`to` == 0). Exception: during contract creation, any number of NFTs
@@ -62,7 +62,7 @@ interface ERC721 {
         address _from,
         address _to,
         uint256 _tokenId,
-        bytes data
+        bytes memory data
     ) external payable;
 
     /// @notice Transfers the ownership of an NFT from one address to another address
