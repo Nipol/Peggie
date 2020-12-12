@@ -125,8 +125,16 @@ describe('TokenFactory', () => {
       const tokenName = 'Sample';
       const tokenSymbol = 'SAM';
       const tokenDecimals = BigNumber.from('18');
-      const calculatedTokenAddress = await TokenFactory.calculateNewTokenAddress(key, contractVersion, tokenName, tokenSymbol, tokenDecimals);
-      await expect(TokenFactory.newToken(key, contractVersion, tokenName, tokenSymbol, tokenDecimals)).to.emit(TokenFactory, 'GeneratedToken').withArgs(wallet.getAddress, calculatedTokenAddress);
+      const calculatedTokenAddress = await TokenFactory.calculateNewTokenAddress(
+        key,
+        contractVersion,
+        tokenName,
+        tokenSymbol,
+        tokenDecimals,
+      );
+      await expect(TokenFactory.newToken(key, contractVersion, tokenName, tokenSymbol, tokenDecimals))
+        .to.emit(TokenFactory, 'GeneratedToken')
+        .withArgs(wallet.getAddress, calculatedTokenAddress);
     });
 
     it('should be reverted when create new token with different deposit amount', async () => {
@@ -140,8 +148,16 @@ describe('TokenFactory', () => {
       const tokenName = 'Sample';
       const tokenSymbol = 'SAM';
       const tokenDecimals = BigNumber.from('18');
-      const calculatedTokenAddress = await TokenFactory.calculateNewTokenAddress(key, contractVersion, tokenName, tokenSymbol, tokenDecimals);
-      await expect(TokenFactory.newToken(key, contractVersion, tokenName, tokenSymbol, tokenDecimals)).to.be.revertedWith('TokenFactory/Different deposited');
+      const calculatedTokenAddress = await TokenFactory.calculateNewTokenAddress(
+        key,
+        contractVersion,
+        tokenName,
+        tokenSymbol,
+        tokenDecimals,
+      );
+      await expect(
+        TokenFactory.newToken(key, contractVersion, tokenName, tokenSymbol, tokenDecimals),
+      ).to.be.revertedWith('TokenFactory/Different deposited');
     });
   });
 
@@ -158,8 +174,18 @@ describe('TokenFactory', () => {
       const tokenSymbol = 'SAM';
       const tokenDecimals = BigNumber.from('18');
       const initialToken = BigNumber.from('100000000000000000000');
-      const calculatedTokenAddress = await TokenFactory.calculateNewTokenAddress(key, contractVersion, tokenName, tokenSymbol, tokenDecimals);
-      await expect(TokenFactory.newTokenWithMint(key, contractVersion, tokenName, tokenSymbol, tokenDecimals, initialToken)).to.emit(TokenFactory, 'GeneratedToken').withArgs(await wallet.getAddress(), calculatedTokenAddress);
+      const calculatedTokenAddress = await TokenFactory.calculateNewTokenAddress(
+        key,
+        contractVersion,
+        tokenName,
+        tokenSymbol,
+        tokenDecimals,
+      );
+      await expect(
+        TokenFactory.newTokenWithMint(key, contractVersion, tokenName, tokenSymbol, tokenDecimals, initialToken),
+      )
+        .to.emit(TokenFactory, 'GeneratedToken')
+        .withArgs(await wallet.getAddress(), calculatedTokenAddress);
       const GeneratedToken = await StandardTokenTemplate.attach(calculatedTokenAddress);
       expect(await GeneratedToken.balanceOf(await wallet.getAddress())).to.equal(initialToken);
       expect(await GeneratedToken.symbol()).to.equal(tokenSymbol);
@@ -177,7 +203,9 @@ describe('TokenFactory', () => {
       const tokenSymbol = 'SAM';
       const tokenDecimals = BigNumber.from('18');
       const initialToken = BigNumber.from('100000000000000000000');
-      await expect(TokenFactory.newTokenWithMint(key, contractVersion, tokenName, tokenSymbol, tokenDecimals, initialToken)).to.be.revertedWith('TokenFactory/Different deposited');
+      await expect(
+        TokenFactory.newTokenWithMint(key, contractVersion, tokenName, tokenSymbol, tokenDecimals, initialToken),
+      ).to.be.revertedWith('TokenFactory/Different deposited');
     });
   });
 });
