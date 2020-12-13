@@ -135,14 +135,14 @@ contract Cage is AbstractInitializer, ERC721TokenReceiver {
     }
 
     /// 총 커밋된 토큰의 수량
-    function totalCommited() external view returns (uint256) {
+    function totalCommitted() external view returns (uint256) {
         return IERC20(token).balanceOf(address(this));
     }
 
     /// 실시간 보험료
     function coverPrice() external view returns (uint256) {
         // 5%
-        return IERC20(token).balanceOf(address(this)).div(10000).mul(500);
+        return latestPrice.div(10000).mul(500);
     }
 
     function onERC721Received(
